@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conecta Bairro</title>
+    <meta name="theme-color" content="#0f3a5f" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="container marca">
+        <div class="logo" aria-hidden="true">CB</div>
+        <div>
+          <h1>Conecta Bairro</h1>
+          <p>Projetos e ações sociais perto de você, de graça.</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Busca + localização -->
+      <section class="busca" aria-label="Buscar atividades">
+        <div class="busca-linha">
+          <input
+            type="search"
+            id="campoBusca"
+            placeholder="Buscar por bairro ou serviço"
+            aria-label="Buscar por bairro ou serviço"
+          />
+          <button class="btn-local" id="btnLocal" type="button">
+            Usar minha localização
+          </button>
+        </div>
+        <p id="statusLocal" role="status"></p>
+      </section>
+
+      <!-- Categorias -->
+      <div
+        class="categorias"
+        id="categorias"
+        role="group"
+        aria-label="Categorias"
+      ></div>
+
+      <p class="resumo" id="resumo"></p>
+      <ul class="lista" id="lista"></ul>
+
+      <!-- Área para instituições cadastrarem projetos -->
+      
+    <summary>Tenho um projeto e quero divulgar</summary>
+    <form id="formProjeto">
+      <label>Nome da atividade
+        <input type="text" id="fNome" required placeholder="Ex.: Aula de futsal">
+      </label>
+      <label>Categoria
+        <select id="fCategoria" required></select>
+      </label>
+
+      <div style="grid-column: 1 / -1;">
+        <button class="btn-local" id="btnLocalForm" type="button">Usar a localização de onde estou agora</button>
+        <p id="statusForm" role="status" style="margin: 6px 0 0; font-size: .9rem;">
+          Opcional, mas sem ela a atividade não mostra a distância. Faça isso no local da atividade.
+        </p>
+      </div>
+
+      <label>Bairro
+        <input type="text" id="fBairro" required placeholder="Preenchido pela localização, ou digite">
+      </label>
+      <label>Local
+        <input type="text" id="fLocal" required placeholder="Ex.: Quadra da associação">
+      </label>
+      <label>Dia e horário
+        <input type="text" id="fHorario" required placeholder="Ex.: Terças, 18h–19h">
+      </label>
+      <label>WhatsApp (com DDD)
+        <input type="tel" id="fWhats" required placeholder="85 99999-0000">
+      </label>
+      <button class="btn-enviar" type="submit">Publicar atividade</button>
+    </form>
+    </details>
+
+      <!-- Estudo de caso -->
+      <section class="impacto" aria-label="Impacto real">
+        <h2>O impacto real no bairro</h2>
+        <p>
+          No estudo de caso da parceria KitSurf Integra, 353 crianças e jovens
+          de 8 a 16 anos foram beneficiados com aulas gratuitas de kitesurf,
+          plantões pedagógicos e oficinas de sustentabilidade.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      Protótipo acadêmico — Faculdade Senac Ceará, ADS 2026.2. As atividades
+      mostradas são exemplos fictícios.
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

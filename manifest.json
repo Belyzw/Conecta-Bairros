@@ -1,0 +1,19 @@
+{
+  "name": "Conecta Bairro",
+  "short_name": "Conecta Bairro",
+  "description": "Projetos e ações sociais perto de você, de graça.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef4fb",
+  "theme_color": "#0f3a5f",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
