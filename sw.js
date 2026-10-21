@@ -1,12 +1,17 @@
 // Service worker: guarda os arquivos no celular para o app abrir rápido e funcionar sem internet.
-const NOME_CACHE = "conecta-bairro-v2";
+const NOME_CACHE = "conecta-bairro-v3";
 const ARQUIVOS = [
   "./",
   "./index.html",
-  "style.css",
-  "script.js",
+  "./style.css",
+  "./script.js",
   "./manifest.json",
-  "icon.svg",
+  "./logo-cabecalho.png",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./icon-512-maskable.png",
+  "./apple-touch-icon.png",
+  "./favicon-32.png",
 ];
 
 // Instalação: salva os arquivos no cache

@@ -6,14 +6,19 @@
     <title>Conecta Bairro</title>
     <meta name="theme-color" content="#0f3a5f" />
     <link rel="manifest" href="manifest.json" />
-    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="favicon-32.png" type="image/png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
     <header>
       <div class="container marca">
-        <div class="logo" aria-hidden="true">CB</div>
+        <img
+          class="logo-img"
+          src="logo-cabecalho.png"
+          alt="Logo do Conecta Bairro"
+        />
         <div>
           <h1>Conecta Bairro</h1>
           <p>Projetos e ações sociais perto de você, de graça.</p>
@@ -50,38 +55,94 @@
       <ul class="lista" id="lista"></ul>
 
       <!-- Área para instituições cadastrarem projetos -->
-      
-    <summary>Tenho um projeto e quero divulgar</summary>
-    <form id="formProjeto">
-      <label>Nome da atividade
-        <input type="text" id="fNome" required placeholder="Ex.: Aula de futsal">
-      </label>
-      <label>Categoria
-        <select id="fCategoria" required></select>
-      </label>
+      <details>
+        <summary>Tenho um projeto e quero divulgar</summary>
+        <form id="formProjeto">
+          <label
+            >Nome da atividade
+            <input
+              type="text"
+              id="fNome"
+              required
+              placeholder="Ex.: Aula de futsal"
+            />
+          </label>
+          <label
+            >Categoria
+            <select id="fCategoria" required></select>
+          </label>
 
-      <div style="grid-column: 1 / -1;">
-        <button class="btn-local" id="btnLocalForm" type="button">Usar a localização de onde estou agora</button>
-        <p id="statusForm" role="status" style="margin: 6px 0 0; font-size: .9rem;">
-          Opcional, mas sem ela a atividade não mostra a distância. Faça isso no local da atividade.
-        </p>
-      </div>
+          <div style="grid-column: 1 / -1">
+            <button class="btn-local" id="btnLocalForm" type="button">
+              Usar a localização de onde estou agora
+            </button>
+            <p
+              id="statusForm"
+              role="status"
+              style="margin: 6px 0 0; font-size: 0.9rem"
+            >
+              Opcional, mas sem ela a atividade não mostra a distância. Faça
+              isso no local da atividade.
+            </p>
+          </div>
 
-      <label>Bairro
-        <input type="text" id="fBairro" required placeholder="Preenchido pela localização, ou digite">
-      </label>
-      <label>Local
-        <input type="text" id="fLocal" required placeholder="Ex.: Quadra da associação">
-      </label>
-      <label>Dia e horário
-        <input type="text" id="fHorario" required placeholder="Ex.: Terças, 18h–19h">
-      </label>
-      <label>WhatsApp (com DDD)
-        <input type="tel" id="fWhats" required placeholder="85 99999-0000">
-      </label>
-      <button class="btn-enviar" type="submit">Publicar atividade</button>
-    </form>
-    </details>
+          <label
+            >Bairro
+            <input
+              type="text"
+              id="fBairro"
+              required
+              placeholder="Preenchido pela localização, ou digite"
+            />
+          </label>
+          <label
+            >Local
+            <input
+              type="text"
+              id="fLocal"
+              required
+              placeholder="Ex.: Quadra da associação"
+            />
+          </label>
+          <label
+            >Dia e horário
+            <input
+              type="text"
+              id="fHorario"
+              required
+              placeholder="Ex.: Terças, 18h–19h"
+            />
+          </label>
+          <label
+            >WhatsApp (com DDD)
+            <input
+              type="tel"
+              id="fWhats"
+              required
+              placeholder="85 99999-0000"
+            />
+          </label>
+
+          <!-- Foto do projeto -->
+          <label class="foto-campo"
+            >Foto do projeto (opcional)
+            <input type="file" id="fFoto" accept="image/*" />
+          </label>
+          <div class="foto-previa" id="previaFoto" hidden>
+            <img id="imgPrevia" alt="Prévia da foto escolhida" />
+            <button type="button" class="btn-remover-foto" id="btnRemoverFoto">
+              Remover foto
+            </button>
+          </div>
+          <p class="foto-aviso" id="statusFoto" role="status"></p>
+          <p class="foto-aviso">
+            Não envie fotos em que crianças possam ser identificadas sem a
+            autorização dos responsáveis (LGPD).
+          </p>
+
+          <button class="btn-enviar" type="submit">Publicar atividade</button>
+        </form>
+      </details>
 
       <!-- Estudo de caso -->
       <section class="impacto" aria-label="Impacto real">
