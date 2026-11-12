@@ -1,7 +1,8 @@
 /* =====================================================
    1) DADOS
-   Cada atividade tem a própria latitude (lat) e
-   longitude (lon), e pode ter uma foto.
+   As atividades agora vêm do banco de dados (via servidor).
+   A lista "projetosExemplo" só é usada se o servidor
+   não estiver disponível (ex.: GitHub Pages).
    ===================================================== */
 
 const categorias = [
@@ -18,7 +19,7 @@ const categorias = [
 ];
 
 // Atividades de exemplo (fictícias). lat e lon são números, sem aspas.
-let projetos = [
+let projetosExemplo = [
   {
     nome: "Escolinha de kitesurf",
     categoria: "esporte",
@@ -102,6 +103,7 @@ let projetos = [
 ];
 
 // Estado atual da tela
+let projetos = []; // agora vem do banco de dados
 let categoriaAtual = "todas";
 let posicaoUsuario = null; // localização de quem está visitando o site
 let localDaAtividade = null; // localização capturada no formulário de cadastro
@@ -465,44 +467,83 @@ campoFoto.addEventListener("change", async () => {
 document.getElementById("btnRemoverFoto").addEventListener("click", limparFoto);
 
 /* =====================================================
-   7) ENVIO DO FORMULÁRIO
+   7) BANCO DE DADOS: CARREGAR E ENVIAR
    ===================================================== */
-document.getElementById("formProjeto").addEventListener("submit", (evento) => {
-  evento.preventDefault();
 
-  const novo = {
-    nome: document.getElementById("fNome").value.trim(),
-    categoria: document.getElementById("fCategoria").value,
-    bairro: document.getElementById("fBairro").value.trim(),
-    local: document.getElementById("fLocal").value.trim(),
-    horario: document.getElementById("fHorario").value.trim(),
-    whatsapp: document.getElementById("fWhats").value,
-  };
-
-  // Se a localização foi capturada, guarda junto com a atividade
-  if (localDaAtividade) {
-    novo.lat = localDaAtividade.lat;
-    novo.lon = localDaAtividade.lon;
+// Busca as atividades no banco. Se não houver servidor
+// (ex.: GitHub Pages), usa os exemplos como demonstração.
+async function carregarProjetos() {
+  try {
+    const resposta = await fetch("api/atividades");
+    if (!resposta.ok) throw new Error("Servidor indisponível");
+    projetos = await resposta.json();
+  } catch (erro) {
+    projetos = [...projetosExemplo];
   }
-
-  // Se uma foto foi escolhida, guarda junto com a atividade
-  if (fotoDoProjeto) {
-    novo.foto = fotoDoProjeto;
-  }
-
-  projetos.unshift(novo);
-
-  evento.target.reset();
-  limparFoto();
-  localDaAtividade = null;
-  document.getElementById("statusForm").textContent =
-    "Opcional, mas sem ela a atividade não mostra a distância. Faça isso no local da atividade.";
-  categoriaAtual = "todas";
-  document.getElementById("campoBusca").value = "";
-  desenharCategorias();
   desenharLista();
-  document.getElementById("lista").scrollIntoView({ behavior: "smooth" });
-});
+}
+
+document
+  .getElementById("formProjeto")
+  .addEventListener("submit", async (evento) => {
+    evento.preventDefault();
+    const formulario = evento.target;
+
+    const novo = {
+      nome: document.getElementById("fNome").value.trim(),
+      categoria: document.getElementById("fCategoria").value,
+      bairro: document.getElementById("fBairro").value.trim(),
+      local: document.getElementById("fLocal").value.trim(),
+      horario: document.getElementById("fHorario").value.trim(),
+      whatsapp: document.getElementById("fWhats").value,
+    };
+
+    // Se a localização foi capturada, guarda junto com a atividade
+    if (localDaAtividade) {
+      novo.lat = localDaAtividade.lat;
+      novo.lon = localDaAtividade.lon;
+    }
+
+    // Se uma foto foi escolhida, guarda junto com a atividade
+    if (fotoDoProjeto) {
+      novo.foto = fotoDoProjeto;
+    }
+
+    // Tenta salvar no banco
+    let salvouNoBanco = false;
+    try {
+      const resposta = await fetch("api/atividades", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(novo),
+      });
+      if (resposta.status === 400) {
+        const erro = await resposta.json();
+        alert(erro.erro || "Confira os dados do formulário.");
+        return;
+      }
+      salvouNoBanco = resposta.ok;
+    } catch (erro) {
+      salvouNoBanco = false;
+    }
+
+    if (salvouNoBanco) {
+      await carregarProjetos();
+    } else {
+      projetos.unshift(novo); // modo demonstração (sem servidor)
+    }
+
+    formulario.reset();
+    limparFoto();
+    localDaAtividade = null;
+    document.getElementById("statusForm").textContent =
+      "Opcional, mas sem ela a atividade não mostra a distância. Faça isso no local da atividade.";
+    categoriaAtual = "todas";
+    document.getElementById("campoBusca").value = "";
+    desenharCategorias();
+    desenharLista();
+    document.getElementById("lista").scrollIntoView({ behavior: "smooth" });
+  });
 
 /* =====================================================
    8) INÍCIO
@@ -517,7 +558,7 @@ document
 
 preencherFormulario();
 desenharCategorias();
-desenharLista();
+carregarProjetos();
 
 /* =====================================================
    9) TRANSFORMAR EM APLICATIVO (PWA)
